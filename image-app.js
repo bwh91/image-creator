@@ -1,43 +1,61 @@
+/*
+  Image class:
+
+  canvasID: id of the canvas object
+  filename: the name of the file minus the extension
+  fileType: the file extension
+
+*/
+var Image = function (canvasID, filename, fileType) {
+  this.canvasID = canvasID;
+  try {
+    this.canvas = document.getElementById(this.canvasID);
+    this.imageHeight = this.canvas.height;
+    this.imageWidth = this.canvas.width;
+    this.URI = this.canvas.toDataURL("image/" + this.fileType).replace("image/" + this.fileType, "image/octet-stream");
+  }
+  catch(err) {
+    console.log("canvas id could not be found");
+    this.canvas = "";
+    this.imageHeight = "";
+    this.imageWidth = "";
+    this.URI = "";
+  }
+  this.filename = filename;
+  this.fileType = fileType;
+
+
+};
 
 /*
-  function creates an image of the supplied canvas object and auto downloads image
-
-  canvasID: id of the canvas elemet that is being converted
-  filename: The name of the file minus the extension
-  fileType: The extension of the file ex. 'jpeg' or 'png'
+  function creates the image and automatically downloads the file
 */
-function createImageAuto(canvasID, filename, fileType) {
+Image.prototype.createImageAuto = function() {
 
-  //Get canvas URI
-  var c = document.getElementById(canvasID);
-  var i = canvas.toDataURL("image/" + fileType).replace("image/" + fileType, "image/octet-stream");
+    var a = document.createElement('a');
+    a.href = this.URI;
+    a.download = this.filename + "." + this.fileType;
+    a.click();
 
-  //create element and "click" to download
-  var a = document.createElement('a');
-  a.href = i;
-  a.download = filename + "." + fileType;
-  a.click();
-
-}
+};
 
 /*
-  function creates an image of the supplied canvas object. This should be
-  used when you want to actually create a link to download the image instead
-  of automatically downloading the image
-
-  canvasID: id of the canvas elemet that is being converted
-  filename: The name of the file minus the extension
-  fileType: The extension of the file ex. 'jpeg' or 'png'
-
-  returns: a link to the file
+  function cretes the URI to the file and returns the path
 */
-function createImage(canvasID, filename, fileType) {
-
-  //Get canvas URI
-  var c = document.getElementById(canvasID);
-
-  return canvas.toDataURL("image/" + fileType).replace("image/" + fileType, "image/octet-stream");
+Image.prototype.createImage = function() {
 
 
+  return this.canvas.toDataURL("image/" + this.fileType).replace("image/" + this.fileType, "image/octet-stream");
 
-}
+};
+
+/*
+  function opens the image in a new window
+*/
+Image.prototype.openNewWindow = function() {
+
+  window.open(this.URI, "Image", "width=" + this.imageWidth + ",height=" + this.imageHeight );
+
+
+
+};

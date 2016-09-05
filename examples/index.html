@@ -3,10 +3,8 @@
 <body>
   <div id="container">
   </div>
-
   <div id="fileUpload">
   </div>
-
   <script src="../image-app.js"></script>
   <script>
 
@@ -15,9 +13,23 @@
     var ctx = canvas.getContext("2d");
     ctx.font = "30px Arial";
     ctx.fillText("Hello World",10,50);
-    //$("#container").html = '<canvas id="c" width="300" height="300"></canvas>';
 
-    createImageAuto("c", "test", "png");
+
+    // image-app.js code
+
+    //Create new image object
+    var i = new Image("c", "test2", "png");
+
+    //auto download of the canvas image
+    i.createImageAuto();
+
+    //Creat a uri to the image
+    i.createImage();
+    var urlToImage = i.URI; // this can be use anywhere a link can be used
+    console.log(urlToImage);
+
+    //To open the image in a new window
+    i.openNewWindow();
 
 
   </script>
